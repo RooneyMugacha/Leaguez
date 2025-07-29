@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Leaguez.Models.League>
+
+
+
+@{
+    ViewData["Title"] = "Available Leagues";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New League</a>
+</p>
+
+<table class="table">
+    <tbody>
+        @foreach (var league in Model) {
+            <tr>
+                <td>
+                    <a asp-action="Details" asp-route-id="@league.Id">@league.Name</a>
+                </td>
+                <td>
+                    Created: @league.CreatedAt.ToShortDateString()
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

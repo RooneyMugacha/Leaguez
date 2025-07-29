@@ -1,0 +1,75 @@
+﻿@model League  
+
+@{  
+    ViewData["Title"] = Model.Name;  
+}  
+
+<h1>@Model.Name</h1>  
+
+<!-- League Table -->  
+<h3>League Table</h3>  
+<table class="table">  
+    <thead>  
+        <tr class="pls ">  
+            <th>#</th>  
+            <th>Player</th>  
+            <th>P</th>  
+            <th>W</th>  
+            <th>D</th>  
+            <th>L</th>  
+            <th>Pts</th>
+            <th>GF</th>  
+            <th>GA</th>  
+            <th></th> 
+             
+        </tr>  
+    </thead>  
+    <tbody>  
+        @{ int rank = 1; }  
+        @foreach (var player in Model.Players)  
+        {  
+            <tr>  
+                <td>@(rank++)</td>  
+                <td>@player.Name</td>  
+                <td>@player.Played</td>  
+                <td>@player.Wins</td>  
+                <td>@player.Draws</td>  
+                <td>@player.Losses</td>
+                <td>@player.Points</td>
+                <td>@player.GoalsFor</td>  
+               
+              
+            </tr>  
+        }  
+    </tbody>  
+</table>  
+
+<!-- Fixtures -->  
+<h3>Fixtures</h3>  
+@foreach (var match in Model.Matches.Where(m => !m.IsPlayed))  
+{  
+    <div>  
+         
+            @match.Player1.Name vs @match.Player2.Name
+
+            <form asp-action="RecordResult" method="post" style="display:inline;">  
+                <input type="hidden" name="matchId" value="@match.Id" />
+            <input type="text" name="Score1" placeholder="@match.Score1 score" required />
+            <input type="text" name="Score2" placeholder="@match.Score2 score" required />
+            <button type="submit">Submit Result</button>  
+            </form>  
+        
+    </div>  
+}  
+
+<!-- Results -->  
+<h3>Results</h3>  
+@foreach (var match in Model.Matches.Where(m => m.IsPlayed))  
+{  
+    <div>  
+        @if (match.Player1 != null && match.Player2 != null)  
+        {  
+            @match.Player1.Name <strong>@match.Score1 - @match.Score2</strong> @match.Player2.Name  
+        }  
+    </div>  
+}
